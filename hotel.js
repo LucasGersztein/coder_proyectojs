@@ -7,23 +7,25 @@ function pedirCantidad(){
 function pedirHabitacion() {
     let habitacionDeseada = parseInt(prompt("Ingrese el número de la habitación que desea reservar. 1 - Habitación Standar, 2 - Habitación Junior Suite, 3 - Habitación Suite de lujo o 4 - Habitación Suite Presidencial"))
 
-    while (habitacionDeseada > 4 / 0)
-        if (habitaccionDeseada == 1)
-            habitacionDeseada = 500
-        else if (habitaccionDeseada == 2)
-            habitacionDeseada = 600
-        else if (habitaccionDeseada == 3)
-            habitacionDeseada = 1000
-        else if (habitaccionDeseada == 4)
-            habitacionDeseada = 1200
+    if (habitacionDeseada == 1) {
+        habitacionDeseada = 500}
+    else if (habitacionDeseada == 2){
+        habitacionDeseada = 600}
+    else if (habitacionDeseada == 3){
+        habitacionDeseada = 1000}
+    else if (habitacionDeseada == 4){
+        habitacionDeseada = 1200}
     return habitacionDeseada
+
 }
 
 function valorReserva(){
-    let valorReserva = cantNoches * habitacionDeseada
+
+    const cantidad = pedirCantidad()
+    const habitacion = pedirHabitacion()
+
+    let valorReserva = cantidad * habitacion
     return valorReserva
 }
-pedirHabitacion()
-pedirCantidad()
-valorReserva()
-alert ("El valor total de su reserva es US$" +valorReserva)
+const valorReservaFinal = valorReserva();
+alert ("El valor total de su reserva es US$" +valorReservaFinal)
