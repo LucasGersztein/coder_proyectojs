@@ -49,9 +49,6 @@ const lodge3 = new Lodge(6, "Catedral", 6, 100, 1400)
 //Array lodge
 const LODGE = [lodge1, lodge2, lodge3]
 
-//Array RESERVA
-const RESERVA = []
-
 alert(`Podrá ver nuestras habitaciones disponibles en la consola`)
 HABITACIONES.forEach((habitacion)=> habitacion.mostrarHabitaciones())
 LODGE.forEach((lodge)=>lodge.mostrarLodge())
@@ -92,3 +89,11 @@ function valorReserva(){
 }
 const valorReservaFinal = valorReserva()
 alert ("El valor total de su reserva es US$" +valorReservaFinal)
+
+function filtroPrecioHabitacion(precio){
+
+    const filtro = HABITACIONES.filter(habitacion => habitacion.precio < precio);
+    
+    console.log(filtro)
+}
+filtroPrecioHabitacion (900)
