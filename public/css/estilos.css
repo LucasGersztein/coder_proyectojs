@@ -1,14 +1,19 @@
 * {
     margin: 0;
     padding: 0;
-    box-sizing: border-box; }
-
-header, main, footer {
-    max-width: 1400px;
+    box-sizing: border-box; 
 }
 header {
-    height: 150px;
+    height: 180px;
     margin-left: auto;
     margin-right: auto;
 }
-
+nav div a p {
+    padding: 50px 0 0 30px;
+}
+.ilustracion {
+    width: 60rem;
+}
+.card {
+    width: 30rem;
+}

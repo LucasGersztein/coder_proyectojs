@@ -14,7 +14,7 @@ const habitaciones = [
     maxHuespedes: 4,
     m2: 27,
     precio: 800,
-    imagen: '.public//images/habitacion2.jpg',
+    imagen: './public/images/habitacion2.jpg',
     cantidad: 1,
  },
  {
