@@ -1,3 +1,7 @@
+@font-face {
+    font-family: 'Lora';
+    src: url(./public/images/Lora.ttf);
+}
 * {
     margin: 0;
     padding: 0;
@@ -8,12 +12,35 @@ header {
     margin-left: auto;
     margin-right: auto;
 }
+body {
+    background-color:#B6CCA4 !important;
+}
 nav div a p {
     padding: 50px 0 0 30px;
+    font-family: 'Lora';
+}
+h1 {
+    padding: 40px 0px;
+}
+.article1 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 .ilustracion {
-    width: 60rem;
+    width: 50rem;
 }
 .card {
     width: 30rem;
+}
+#textoPpal {
+    font-family: 'Source Sans Pro', sans-serif;
+    color: #11141E;
+    padding: 0px 0px 50px 0px;
+}
+section.hotel {
+    margin-top: 50px;
+}
+section.hotel h2 {
+    padding: 30px 0px;
 }

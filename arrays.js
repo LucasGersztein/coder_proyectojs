@@ -46,7 +46,7 @@ const habitaciones = [
        cantidad: 1,
     },
     {
-       id: 5,
+       id: 6,
        nombre: 'Catedral',
        maxHuespedes: 6,
        m2: 100,
