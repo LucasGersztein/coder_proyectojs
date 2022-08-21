@@ -1,6 +1,4 @@
-
-//Arrays 
-//Declaración de clase
+//Clase
 class Habitaciones{
   constructor(id, nombre, maxHuespedes, m2, precio,imagen){
       this.id = id,
@@ -12,7 +10,7 @@ class Habitaciones{
 
   }
 }
-//Instanciación de objetos -- respetamos orden y cantidad de atributos
+//Objetos
 
 const habitacion1 = new Habitaciones(1,'Clásica', 2, 20, 600, './public/images/habitacion1.jpg')
 
@@ -26,18 +24,18 @@ const habitacion5 = new Habitaciones(5,'Otto', 4, 85, 1000, './public/images/lod
 
 const habitacion6 = new Habitaciones(6,'Catedral', 6, 100, 1400, './public/images/lodge3.jpg')
 
-//Declarar arrays 
+//Arrays 
 let hotel = []
 let productosAReservar = []
 
-//Elementos DOM 
+//DOM 
 let botonReservas = document.getElementById("idModal")
 let modalBody = document.getElementById("modal-body")
 let parrafoReserva = document.getElementById("reservaTotal")
 let acumulador
 const contenedorHabitaciones = document.getElementById('contenedorHabitaciones');
 
-//Evento botonReserva
+
 botonReservas.addEventListener('click', () => {
 
   
@@ -46,10 +44,9 @@ botonReservas.addEventListener('click', () => {
   
 })
 
-//lógica iniciar array estantería
+//Inicio hotel
 
 if(localStorage.getItem("hotel")){
-  //array que declaramos vacio
   hotel = JSON.parse(localStorage.getItem("hotel"))
   console.log(hotel)
 }else{
@@ -57,14 +54,16 @@ if(localStorage.getItem("hotel")){
   localStorage.setItem("hotel", JSON.stringify(hotel))
 }
 console.log(hotel)
-//lógica iniciar array carrito
+
+//Inicio reserva
+
 if(localStorage.getItem("reserva")){
   productosAReservar = JSON.parse(localStorage.getItem("reserva"))
 }else{
   localStorage.setItem("reserva", [])
 } 
 
-//Plantillas
+//Plantilla
 
 function mostrarHabitaciones(){
   contenedorHabitaciones.innerHTML = ""
@@ -80,75 +79,120 @@ function mostrarHabitaciones(){
 
       contenedorHabitaciones.appendChild(habitaciones)
       
-      //código btnAgregar
+
       let btnReservar = document.getElementById(`habitacionReservar${habitacion.id}`)
-      console.log(btnReservar);
-      //invocar agregarAlCarrito
-      btnReservar.addEventListener("click", () =>{agregarReservas(habitacion)})
+
+      btnReservar.addEventListener("click", () =>{agregarReservas(habitacion)
+        Swal.fire({
+          title: `La habitación ${habitacion.nombre} ha sido agregada para su reserva`,
+          text: "Pulsar en el timbre para continuar con la reserva",
+          icon: 'success',
+          timer: 1500,
+          showConfirmButton: false,
+        }
+        )
+      })
+
       })
       
       
   }
 
+  //Push y storage de reserva
+
 function agregarReservas(habitacion){
       
       productosAReservar.push(habitacion)
       console.log(productosAReservar);
-      //Cargar al storage
       localStorage.setItem("reserva", JSON.stringify(productosAReservar))
       
 }
 
 mostrarHabitaciones()
+
+// Carga modal de habitaciones
+
 function cargarHabitacionesReserva(habitacionesDelStorage) {
   modalBody.innerHTML = " "  
   habitacionesDelStorage.forEach((habitacionReservas) => {
       
       modalBody.innerHTML += `
-          <div class="card border-primary mb-3" id ="alojamientoreserva${habitacionReservas.id}" style="max-width: 540px;">
+          <div class="card border-primary mb-3" id ="alojamientoReserva${habitacionReservas.id}" style="max-width: 540px;">
               <img class="card-img-top" src="${habitacionReservas.imagen}" alt="${habitacionReservas.nombre}">
               <div class="card-body">
                       <h4 class="card-title">${habitacionReservas.nombre}</h4>
                   
-                      <p class="card-text">$${habitacionReservas.precio}</p> 
+                      <p class="card-text">US$${habitacionReservas.precio}</p> 
                       <button class= "btn btn-danger" id="botonEliminar${habitacionReservas.id}"><i class="fas fa-trash-alt"></i></button>
               </div>    
           
           
           </div>
   `
-})
-//FUnction del total
-//productosEnCarritos
-reservaTotal(habitacionesDelStorage)
-}
-
-function reservaTotal(habitacionesTotal) {
-  acumulador = 0;
-  //recorrer productosTotal
-  habitacionesTotal.forEach((habitacionesReservas)=>{
-      acumulador += habitacionesReservas.precio 
   })
-  console.log(acumulador)
-  //if acumularo = 0 o !=
-  if(acumulador == 0){
-      parrafoReserva.innerHTML = `<p>No hay productos en el carrito</p>`
-  }else{
-      parrafoReserva.innerHTML = `Importe de su compra ${acumulador}`
-  }
- 
+
+
+  reservaTotal(...habitacionesDelStorage)
+
+  //Botón eliminar de modal y storage
+
+  habitacionesDelStorage.forEach((habitacionReservas, indice)=>{
+
+    document.getElementById(`botonEliminar${habitacionReservas.id}`).addEventListener('click', () => {
+
+        let cardReserva = document.getElementById(`alojamientoReserva${habitacionReservas.id}`)
+        console.log(cardReserva);
+
+        const swalButtons = Swal.mixin({
+          customClass: {
+            confirmButton: 'btn btn-success',
+            cancelButton: 'btn btn-danger'
+          },
+          buttonsStyling: false
+        })
+    
+          swalButtons.fire({
+            title: `¿Desea eliminar la habitación ${habitacionReservas.nombre} de reservas?`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Eliminar',
+            cancelButtonText: 'Cancelar',
+            reverseButtons: true
+          }).then((result) => {
+            if (result.isConfirmed) {
+
+              cardReserva.remove()
+
+              productosAReservar.splice(indice, 1)
+              console.log(productosAReservar)
+              localStorage.setItem("reserva", JSON.stringify(productosAReservar))
+              cargarHabitacionesReserva(productosAReservar)
+              swalButtons.fire({
+                title: `La habitación ${habitacionReservas.nombre} ha sido eliminada`,
+                icon: 'success'
+              })
+            } else if (
+              result.dismiss === Swal.DismissReason.cancel
+            ) {
+              swalButtons.fire({
+                timer: 0.0001,
+              })
+            }
+          })
+    })  
+  })
 }
-productosAReservar.forEach((habitacionReservas, indice)=>{
-  document.getElementById(`botonEliminar${habitacionReservas.id}`).addEventListener('click', () => {
-      let cardhabitacion = document.getElementById(`alojamientoreserva${habitacionReservas.id}`)
-      cardhabitacion.remove()
 
-      productosAReservar.splice(indice, 1)
-      localStorage.setItem("reserva", JSON.stringify(productosAReservar))
-      cargarHabitacionesReserva(productosAReservar)
-  })  
+function reservaTotal(...habitacionesTotal) {
+  acumulador = 0;
 
-})
+  acumulador = habitacionesTotal.reduce((acumulador, habitacionesReservas)=>{ return acumulador + habitacionesReservas.precio},0)
+  
+  console.log(acumulador)
+
+  acumulador > 0 ? parrafoReserva.innerHTML = `Importe de su reserva es US$ ${acumulador}`: parrafoReserva.innerHTML = `<p>No hay habitaciones seleccionadas para reservar</p>`
+}
+
 
 
 
