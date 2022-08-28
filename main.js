@@ -166,7 +166,6 @@ function cargarHabitacionesReserva(habitacionesDelStorage) {
               productosAReservar.splice(indice, 1)
               console.log(productosAReservar)
               localStorage.setItem("reserva", JSON.stringify(productosAReservar))
-              cargarHabitacionesReserva(productosAReservar)
               swalButtons.fire({
                 title: `La habitación ${habitacionReservas.nombre} ha sido eliminada`,
                 icon: 'success'
@@ -192,6 +191,53 @@ function reservaTotal(...habitacionesTotal) {
 
   acumulador > 0 ? parrafoReserva.innerHTML = `Importe de su reserva es US$ ${acumulador}`: parrafoReserva.innerHTML = `<p>No hay habitaciones seleccionadas para reservar</p>`
 }
+
+// API Clima
+
+const form = document.querySelector(".top-banner form");
+const input = document.querySelector(".top-banner input");
+const msg = document.querySelector(".top-banner .msg");
+const list = document.querySelector(".ajax-section .cities");
+const apiKey = "375e0a05bcf1df207054e3e905ba6627";
+const lang = "es"
+
+form.addEventListener("submit", e => {
+  e.preventDefault();
+  const inputVal = input.value;
+  const url = `https://api.openweathermap.org/data/2.5/weather?q=${inputVal}&appid=${apiKey}&units=metric&lang={lang}`;
+
+  fetch(url)
+    .then(response => response.json())
+    .then(data => {
+      const { main, name, sys, weather } = data;
+      const icon = `https://openweathermap.org/img/wn/${
+        weather[0]["icon"]
+      }@2x.png`;
+
+      const li = document.createElement("li");
+      li.classList.add("city");
+      const markup = `
+        <h2 class="city-name" data-name="${name},${sys.country}">
+          <span>${name}</span>
+          <sup>${sys.country}</sup>
+        </h2>
+        <div class="city-temp">${Math.round(main.temp)}<sup>°C</sup></div>
+        <figure>
+          <img class="city-icon" src=${icon} alt=${weather[0]["main"]}>
+          <figcaption>${weather[0]["description"]}</figcaption>
+        </figure>
+      `;
+      li.innerHTML = markup;
+      list.appendChild(li);
+    })
+    .catch(() => {
+      msg.textContent = "Por favor, buscar una ciudad válida";
+    });
+
+  msg.textContent = "";
+  form.reset();
+  input.focus();
+});
 
 
 
