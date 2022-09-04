@@ -143,17 +143,17 @@ max-width: 650px;
 min-height: 40px;
 }
 
-.ajax-section {
+.api-section {
 margin: 70px 0 20px;
 }
 
-.ajax-section .cities {
+.api-section .ciudades {
 display: grid;
 grid-gap: 32px 20px;
 grid-template-columns: repeat(4, 1fr);
 }
 
-.ajax-section .city {
+.api-section .ciudad {
 position: relative;
 padding: 40px 10%;
 border-radius: 20px;
@@ -161,7 +161,7 @@ background: var(--text_light);
 color: var(--text_med);
 }
 
-.ajax-section .city::after {
+.api-section .ciudad::after {
 content: '';
 width: 90%;
 height: 50px;
@@ -174,31 +174,31 @@ border-radius: 20px;
 background: var(--text_light);
 }
 
-.ajax-section figcaption {
+.api-section figcaption {
 margin-top: 10px;
 text-transform: uppercase;
 letter-spacing: 0.05em;
 }
 
-.ajax-section .city-temp {
+.api-section .ciudad-temp {
 font-size: 5rem;
 font-weight: bold;
 margin-top: 10px;
 color: var(--text_dark);
 }
 
-.ajax-section .city sup {
+.api-section .ciudad sup {
 font-size: 0.5em;
 }
 
-.ajax-section .city-name sup {
+.api-section .ciudad-name sup {
 padding: 0.2em 0.6em;
 border-radius: 30px;
 color: var(--text_light);
 background: var(--orange);
 }
 
-.ajax-section .city-icon {
+.api-section .ciudad-icon {
 margin-top: 10px;
 width: 100px;
 height: 100px;

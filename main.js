@@ -29,9 +29,10 @@ let hotel = []
 let productosAReservar = []
 
 //DOM 
-let botonReservas = document.getElementById("idModal")
+let botonReservas = document.getElementById("botonReserva")
 let modalBody = document.getElementById("modal-body")
 let parrafoReserva = document.getElementById("reservaTotal")
+let btnFinalizarReserva = document.getElementById("btnFinalizarReserva")
 let acumulador
 const contenedorHabitaciones = document.getElementById('contenedorHabitaciones');
 
@@ -192,12 +193,50 @@ function reservaTotal(...habitacionesTotal) {
   acumulador > 0 ? parrafoReserva.innerHTML = `Importe de su reserva es US$ ${acumulador}`: parrafoReserva.innerHTML = `<p>No hay habitaciones seleccionadas para reservar</p>`
 }
 
+// Finalizar reserva
+
+function finalizarReserva(){
+  Swal.fire({
+      title: 'Confirmarción de reserva',
+      icon: 'info',
+      showCancelButton: true,
+      confirmButtonText: 'Confirmar reserva',
+      cancelButtonText: 'No confirmar',
+      confirmButtonColor: 'green',
+      cancelButtonColor: 'red',
+  }).then((result) => {
+  if (result.isConfirmed) {
+      Swal.fire({
+          title: 'Reserva realizada',
+          icon: 'success',
+          confirmButtonColor: 'green',
+          text: `Para realizar el check-in, enviar los datos de los huespedes (nombre completo, DNI y N° de contacto) al mail estanciadelcamen@gmail.com`,
+      })
+      productosAReservar = []
+      localStorage.removeItem('carrito')
+      cargarHabitacionesReserva(productosAReservar)
+      }
+      else{
+          Swal.fire({
+              title: 'Reserva no realizada',
+              icon: 'info',
+              confirmButtonColor: 'green',
+              timer:3500
+          })
+      }
+  })}
+
+// Evento finalizar reserva
+  btnFinalizarReserva.addEventListener('click',()=>{
+    finalizarReserva()
+})
+
 // API Clima
 
 const form = document.querySelector(".top-banner form");
 const input = document.querySelector(".top-banner input");
 const msg = document.querySelector(".top-banner .msg");
-const list = document.querySelector(".ajax-section .cities");
+const list = document.querySelector(".api-section .ciudades");
 const apiKey = "375e0a05bcf1df207054e3e905ba6627";
 const lang = "es"
 
@@ -215,15 +254,15 @@ form.addEventListener("submit", e => {
       }@2x.png`;
 
       const li = document.createElement("li");
-      li.classList.add("city");
+      li.classList.add("ciudad");
       const markup = `
-        <h2 class="city-name" data-name="${name},${sys.country}">
+        <h2 class="ciudad-name" data-name="${name},${sys.country}">
           <span>${name}</span>
           <sup>${sys.country}</sup>
         </h2>
-        <div class="city-temp">${Math.round(main.temp)}<sup>°C</sup></div>
+        <div class="ciudad-temp">${Math.round(main.temp)}<sup>°C</sup></div>
         <figure>
-          <img class="city-icon" src=${icon} alt=${weather[0]["main"]}>
+          <img class="ciudad-icon" src=${icon} alt=${weather[0]["main"]}>
           <figcaption>${weather[0]["description"]}</figcaption>
         </figure>
       `;
